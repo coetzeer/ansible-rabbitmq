@@ -3,8 +3,18 @@
 
 - name: import repository key
   apt_key: url=http://www.rabbitmq.com/rabbitmq-signing-key-public.asc state=present
+  when: ansible_os_family == "Debian"
+
+- name: Ensure RabbitMQ RPM key is present
+  rpm_key: key=http://www.rabbitmq.com/rabbitmq-signing-key-public.asc state=present
+  when: ansible_os_family == "RedHat"
 
 - name: add apt repository
-  apt_repository: repo="deb http://www.rabbitmq.com/debian/ testing main"
-    state=present update_cache=yes
+  apt_repository: repo="deb http://www.rabbitmq.com/debian/ testing main" state=present update_cache=yes
+  when: ansible_os_family == "Debian"
 
+- name: Ensure RabbitMQ is installed
+  yum:
+    name=http://packages.erlang-solutions.com/erlang-solutions-1.0-1.noarch.rpm
+    state=present
+  when: ansible_os_family == "RedHat"

@@ -18,4 +18,6 @@ galaxy_info:
     - wheezy
   categories:
   - clustering
-dependencies: []
+  dependencies: 
+    roles:
+      - { role: ansible-role-repo-epel, when: ansible_os_family == 'RedHat' }
