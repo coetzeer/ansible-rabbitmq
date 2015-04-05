@@ -1,0 +1,10 @@
+[{rabbitmq_management,
+  [{listener, [{port,     {{rabbitmq_web_port}}}{% if rabbitmq_web_ssl_enable  %},
+               {ssl,      true},
+               {ssl_opts, [{cacertfile, "/{{rabbitmq_web_ssl_cacert}}"},
+                           {certfile,   "{{rabbitmq_web_ssl_cert}}"},
+                           {keyfile,    "{{rabbitmq_web_ssl_key}}"}]}
+   {% endif %}
+              ]}
+  ]}
+].
