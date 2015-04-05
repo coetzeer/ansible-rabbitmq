@@ -1,8 +1,13 @@
 ---
 # Configure RabbitMQ for cluster
 
+- name: stat old cookie
+  stat: path=/var/lib/rabbitmq/.erlang.cookie
+  register: old_cookie
+
 - name: backup old erlang cookie
   shell: cp -a /var/lib/rabbitmq/.erlang.cookie /var/lib/rabbitmq/.erlang.cookie.old
+  when: old_cookie.stat.exists
 
 - name: check if erlang cookie changed and if it is so stopping server
   template: src=erlang.cookie.j2 dest=/var/lib/rabbitmq/.erlang.cookie.old owner=rabbitmq group=rabbitmq mode=0400
@@ -13,5 +18,10 @@
 - name: updating rabbitmq erlang cookie
   template: src=erlang.cookie.j2 dest=/var/lib/rabbitmq/.erlang.cookie owner=rabbitmq group=rabbitmq mode=0400
 
+- name: stat old cookie backup
+  stat: path=/var/lib/rabbitmq/.erlang.cookie.old
+  register: old_cookie_backup
+
 - name: remove old erlang cookie
   file: path=/var/lib/rabbitmq/.erlang.cookie.old state=absent
+  when: old_cookie_backup.stat.exists

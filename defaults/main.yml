@@ -5,6 +5,12 @@ rabbitmq_ulimit_open_files: 1024
 rabbitmq_create_cluster: no
 rabbitmq_cluster_master: localhost
 rabbitmq_vhosts: []
+rabbitmq_web_port: 15672
+rabbitmq_web_ssl_enable: False
+rabbitmq_web_ssl_cert: /path/to/cert.pm
+rabbitmq_web_ssl_cacert: /path/to/cacert.pm
+rabbitmq_web_ssl_key: /path/to/key.pm
+
 
 rabbitmq_plugins:
   - rabbitmq_management

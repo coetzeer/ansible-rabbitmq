@@ -27,4 +27,8 @@
   rabbitmq_plugin: names="{{ item }}" state=enabled prefix=/usr/lib/rabbitmq
   with_items: rabbitmq_plugins
   notify: restart rabbitmq-server
+  
+- name: setup rabbitmq configuration file
+  template: src=rabbitmq-config.j2 dest=/etc/rabbitmq/rabbitmq.config owner=rabbitmq group=rabbitmq mode=0400
+  notify: restart rabbitmq-server
 
